@@ -1,42 +1,80 @@
 # 代数拓扑
 
-Bourbaki《数学原本》(Éléments de mathématique) 中代数拓扑卷的自学笔记。
+## 主要内容
 
-## 内容
+Bourbaki《数学原本》(Éléments de mathématique) 中《代数拓扑》一卷的自学笔记。
 
-覆盖（Coverings）、Delacable 空间（Delacable Spaces）、群胚（Groupoids）、同伦与庞加莱群胚（Homotopy and the Poincaré Groupoid）。
+## 说明
+
+本笔记按 Bourbaki 原书的章节层级组织，对应关系如下：
+
+| Bourbaki 原书 | 本笔记 | 本仓库中的示例 |
+|---|---|---|
+| 章（Chapitre） | `Content/` 下的**章目录** | `1_Coverings/` |
+| 节（§） | 章目录下的**节目录** | `1_Fibered_products_and_Cartesian_squares/` |
+| 小节（1、2、…） | 节目录下的 **`.tex` 文件** | `1_Subsection_Name.tex` |
+
+- 目录与文件名取该层级标题的**英译**，并加编号前缀（`1_`、`2_`…，不加前导零）。
+- 中文标题写在 `\chapter{...}` 与 `\section{...}` 中：`\chapter{}` 用该**节目录**名的中译，`\section{}` 用该**文件**名的中译。
+- 每层目录各有一个 `index.tex`，按顺序汇总对下一层的 `\input`。
+
+定理环境用法、交叉引用（`\cref`）、符号库维护等 **tex 层面的规定**，另见模板《笔记写作》的 README。
+
+## 内容结构
+
+```
+Content/
+├─ 1_Coverings/
+│  ├─ 1_Fibered_products_and_Cartesian_squares/
+│  ├─ 2_Étale_maps/
+│  ├─ 3_Sheaves/
+│  ├─ 4_Coverings/
+│  ├─ 5_Principal_coverings/
+│  └─ 6_Simply_connected_spaces/
+├─ 2_Delacable_Spaces/
+│  ├─ 1_Delacable_spaces/
+│  ├─ 2_Poincaré_groups_of_delacable_spaces/
+│  ├─ 3_Poincaré_groups_of_topological_groups/
+│  ├─ 4_Descent_theory/
+│  ├─ 5_Van_Kampen_theorem/
+│  └─ 6_Classifying_spaces/
+├─ 3_Groupoids/
+│  ├─ 1_Quivers/
+│  ├─ 2_Graphs/
+│  ├─ 3_Groupoids/
+│  ├─ 4_Homotopies/
+│  └─ 5_Coequalizer/
+└─ 4_Homotopy_and_The_Poincaré_Groupoid/
+   ├─ 1_Homotopies_homeotopies/
+   ├─ 2_Homotopy_and_paths/
+   ├─ 3_Poincaré_groupoid/
+   ├─ 4_Homotopy_and_coverings/
+   └─ 5_Homotopy_and_coveringscase_of_locally_arcwise_connected_spaces/
+```
+
+## 文件结构
+
+```
+main.tex          编译入口
+structure.sty     样式包：页面设置、定理环境、引用、数学符号库
+quiver.sty        交换图支持
+Content/          分章正文，每章一个目录，由 index.tex 汇总 \input
+commit.py         一键提交并推送（说明见 commit.md）
+setup_mode.py     习题编排模式切换（说明见 setup_mode.md）
+README.md         本文件：项目说明
+CHANGELOG.md      更新日志：tex 配置调整与正文内容调整
+```
+
+各脚本的选项与功能分别见 [commit.md](commit.md) 与 [setup_mode.md](setup_mode.md)；符号库由上层目录的 `symbols.py` 统一管理。
 
 ## 编译
 
-须使用 XeLaTeX（`structure.sty` 依赖 ctexbook 与 XeLaTeX 特性）：
+本笔记使用自建的【笔记写作】模板（样式包 `structure.sty`），须用 **XeLaTeX** 编译：
 
 ```bash
 xelatex main.tex
 ```
 
-`main.pdf` 未纳入版本控制，需本地编译生成。
-
-## 目录结构
-
-```
-main.tex          编译入口
-structure.sty     样式包：页面设置、定理环境（tcolorbox）、引用（hyperref + cleveref）、数学符号库
-quiver.sty        交换图支持
-Content/          分章正文，每章一个目录，由 index.tex 汇总 \input
-commit.py         一键提交并推送到 GitHub
-setup_mode.py     习题编排模式切换（独立习题集 / 章末习题）
-symbols.py        符号管理面板：提取 / 回填 / 清理未用符号 / 引入新记号
-```
-
-## 脚本
-
-```bash
-python commit.py "提交说明"    # 提交并推送，说明可省略（默认「更新笔记」）
-python setup_mode.py 1|2      # 切换习题编排模式
-python symbols.py                 # 符号管理面板（数字多选，如 1,3,5）
-python symbols.py --all --write   # 命令行模式：回填 + 刷新补全 + 分发
-```
-
-## 说明
-
-正文使用英文标点；定理与证明环境由 `structure.sty` 提供。编译产物（aux / log / out / toc / synctex.gz / pdf）与备份文件已在 `.gitignore` 中排除。
+- **编译环境**：XeLaTeX。模板依赖 ctexbook 与 XeLaTeX 特性，**不支持 pdfLaTeX**。
+- **TeXStudio**：建议 4.0 或更高版本。
+- `main.pdf` 未纳入版本控制，需本地编译生成。
